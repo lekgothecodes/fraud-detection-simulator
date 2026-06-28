@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraud Detection Rule Simulator</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="logo-mark">FDS</span>
+      <div class="topbar-title">
+        <h1>Fraud Detection Rule Simulator</h1>
+        <p class="subtitle">Rule-based transaction risk monitor</p>
+      </div>
+    </div>
+    <button id="resetBtn" class="btn-ghost">Reset demo data</button>
+  </header>
+
+  <main class="layout">
+
+    <section class="stats-row" id="statsRow" aria-label="Summary statistics">
+      <div class="stat-card">
+        <span class="stat-label">Total transactions</span>
+        <span class="stat-value" id="statTotal">—</span>
+      </div>
+      <div class="stat-card stat-card--flagged">
+        <span class="stat-label">Flagged</span>
+        <span class="stat-value" id="statFlagged">—</span>
+      </div>
+      <div class="stat-card stat-card--clean">
+        <span class="stat-label">Clean</span>
+        <span class="stat-value" id="statClean">—</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Flag rate</span>
+        <span class="stat-value" id="statRate">—</span>
+      </div>
+    </section>
+
+    <section class="panel panel--form" aria-labelledby="formHeading">
+      <h2 id="formHeading">Submit a transaction</h2>
+      <form id="txnForm" novalidate>
+        <div class="field">
+          <label for="userId">User ID</label>
+          <input type="text" id="userId" name="user_id" placeholder="user_1" required>
+        </div>
+        <div class="field">
+          <label for="amount">Amount (R)</label>
+          <input type="number" id="amount" name="amount" step="0.01" placeholder="450.00" required>
+        </div>
+        <div class="field">
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location" placeholder="Cape Town, ZA" required>
+        </div>
+        <div class="field">
+          <label for="merchant">Merchant</label>
+          <input type="text" id="merchant" name="merchant" placeholder="Takealot" required>
+        </div>
+        <div class="field">
+          <label for="timestamp">Timestamp</label>
+          <input type="datetime-local" id="timestamp" name="timestamp" required>
+        </div>
+        <button type="submit" class="btn-primary">Run through rule engine</button>
+      </form>
+      <p id="formResult" class="form-result" role="status" aria-live="polite"></p>
+
+      <div class="rules-reference">
+        <h3>Active rules</h3>
+        <ul>
+          <li><span class="rule-dot rule-dot--high"></span> Velocity — more than 3 transactions in 10 minutes</li>
+          <li><span class="rule-dot rule-dot--medium"></span> Location jump — differs from last known location</li>
+          <li><span class="rule-dot rule-dot--high"></span> High amount — exceeds 3× the user's average</li>
+          <li><span class="rule-dot rule-dot--medium"></span> Odd hour — occurs between 01:00–04:00</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel panel--feed" aria-labelledby="feedHeading">
+      <div class="feed-header">
+        <h2 id="feedHeading">Transaction feed</h2>
+        <div class="filter-group" role="group" aria-label="Filter transactions">
+          <button class="filter-btn is-active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="flagged">Flagged</button>
+          <button class="filter-btn" data-filter="clean">Clean</button>
+        </div>
+      </div>
+      <div id="txnList" class="txn-list" aria-live="polite">
+        <p class="loading-msg">Loading transactions…</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
