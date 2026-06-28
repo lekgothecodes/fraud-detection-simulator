@@ -13,14 +13,14 @@ Run with:
 Then open http://127.0.0.1:5000 in your browser.
 """
 
-from flask_cors import CORS
-CORS(app)
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 from datetime import datetime, timedelta
 import sqlite3
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fraud_detection.db")
 
