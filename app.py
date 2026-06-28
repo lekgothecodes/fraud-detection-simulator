@@ -20,6 +20,9 @@ import sqlite3
 import os
 
 app = Flask(__name__)
+with app.app_context():
+    init_db()
+    seed_demo_data()
 CORS(app)
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fraud_detection.db")
