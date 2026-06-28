@@ -13,6 +13,8 @@ Run with:
 Then open http://127.0.0.1:5000 in your browser.
 """
 
+from flask_cors import CORS
+CORS(app)
 from flask import Flask, request, jsonify, render_template
 from datetime import datetime, timedelta
 import sqlite3
